@@ -122,12 +122,6 @@
               {% if request.user.is_authenticated and request.user != article.user %}
                 <ul class="post-share list-inline">
                   <li class="list-inline-item"><i class="fa fa-heart like-heart like-icon" data-article="{{ article.id }}"></i> <span class="like-count">{{ article.likes.count }}</span></li>
-                  {% if liked %}
-                  <li class="list-inline-item"><a href="javascript:void(0);" class="fa fa-heart like-icon" data-article="{{ article.id }}"></a></li>
-                  {% else %}
-                  <li class="list-inline-item"><a href="javascript:void(0);" class="fa fa-heart-o like-icon" data-article="{{ article.id }}"></a></li>
-                </ul>
-                {% endif %}
                   {% else %}
                   <ul class="post-share list-inline">
                     <li class="list-inline-item">
