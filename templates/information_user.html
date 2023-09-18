@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}My Profile{% endblock %}
+{% block content %}<style>
+  body{
+    background-color:#81B2F5;
+  }
+
+  .profile-picture{
+    width: 200px;
+    height: 200px;
+  }
+
+  .profile{
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .profile ul{
+    list-style: none;
+  }
+
+  .profile ul li{
+    padding: 10px;
+  }
+
+  .profile ul li span{
+    font-weight: 500;
+  }
+
+  .profile ul li span strong{
+    font-weight: 900;
+  }
+
+  .profile ul li a{
+    font-weight: 900;
+  }
+
+  .profile ul li a:hover{
+    text-decoration: none;
+  }
+
+  .profile ul li a:focus{
+    text-decoration: none;
+  }
+
+  .profile ul li a:active{
+    text-decoration: none;
+  }
+
+  .profile ul li a:visited{
+    text-decoration: none;
+  }
+
+
+</style>
+<section class="profile">
+  <div class="container-fluid py-5">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="text-center">
+          <img class="rounded-circle profile-picture" src="{{ account.get_profile.image }}" alt="Profile Picture">
+          
+          <ul class="list-unstyled pt-3">
+            <li class="py-2">
+              <span>
+                Posts:
+                <strong>{{ account.user_articles.count }}</strong>
+              </span>
+            </li>
+            <li class="py-2">
+              <span>
+                Followers:
+                <strong>{{ account.user_followers.count }}</strong>
+              </span>
+            </li>
+            <li class="py-2">
+              Following:
+              <strong>{{ account.user_follows.count }}</strong>
+            </li>
+            {% if following %}
+            <li class="py-2">
+              <a class="btn btn-primary text-decoration" href="{% url 'follow' account.id %}">Unfollow</a>
+              {% if muted %}
+              <a class="btn btn-primary text-decoration" href="{% url 'mute_or_not' account.id %}">Unmute</a>
+              {% else %}
+              <a class="btn btn-primary text-decoration" href="{% url 'mute_or_not' account.id %}">Mute</a>
+              {% endif %}
+            </li>
+            {% else %}
+            <li class="py-2">
+              <a class="btn btn-primary text-decoration" href="{% url 'follow' account.id %}">Follow</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <h4>{{ account.username }} Articles</h4>
+        <ul class="list-group list-group-flush">
+          {% for article in account.user_articles.all %}
+          <li class="list-group-item">
+            <a href="{% url 'details_articles' article.slug %}" class="list-group-item-action">
+              <p>{{ article.title }}</p>
+              <p>{{ article.created_at }}</p>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

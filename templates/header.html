@@ -1,0 +1,77 @@
+
+
+<nav class="navbar navbar-expand-lg">                
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+           
+            <span class="navbar-brand-text">
+                Pastry 
+                <small>PathAway</small>
+            </span>
+        </a>
+
+      
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-lg-auto">
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" href="{% url 'home' %}">Home</a>
+                </li>
+
+               
+        
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+    
+                    <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                      {% for category in categories %}
+                      <a class="dropdown-item" href="{% url 'category_articles' category.slug %}">{{category.title}}</a>
+                      {% endfor %}
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="{% url 'articles' %}">Cours</a>
+                </li>
+
+               
+                {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link " href="{% url 'quiz_home' %}">Quizz</a>
+                </li>
+
+              
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{request.user.username}}</a>
+  
+                    <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                      {% if user.is_superuser %}
+                      <a  href="/admin">Admin</a>
+                    {% endif %}
+                    <a class="dropdown-item" href="{% url 'profile' %}">My profile</a>
+                    <a href="{% url 'notifications' %}">{% if unread > 0 %}
+                      Notiffications ({{unread}})
+                      {% else %}
+                      Notiffications
+                      {% endif %}
+                    </a>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                   
+                    <div class="dropdown-divider"></div>
+                  
+                    </ul>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

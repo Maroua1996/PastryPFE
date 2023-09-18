@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Profile {% endblock %}
+{% block content %}
+<style>
+  body {
+    background-color: #81B2F5;
+  }
+
+  img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile {
+    margin: 100px;
+    background-color: antiquewhite;
+    
+  }
+  .table thead th {
+    background-color: #3D405B;
+    color: #ffffff;
+  }
+
+  .quizz-section {
+    padding: 15px;
+  }
+</style>
+<div class=" profile mb-5">
+  <div class="row">
+    <div>
+      <div class="text-center">
+        <img src="{{ account.get_profile_image|safe }}" alt="Avatar de l'utilisateur" class="avatar img-fluid rounded-circle">
+        <h4>{{ account.username }}</h4>
+
+        <p>Followers: <strong>{{ account.user_followers.count }}</strong></p>
+        <p>Cours créés: <strong>{{ account.user_articles.count }}</strong></p>
+        <p>Following: <strong>{{ account.user_follows.count }}</strong></p>
+
+        <div class="text-center py-3">
+          <!-- Bouton pour ouvrir la fenêtre modale de mise à jour d'avatar -->
+          <button type="button" class="btn cusot" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Changer l'avatar
+          </button>
+
+          <!-- Fenêtre modale pour la mise à jour de l'avatar -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Mettre à jour la photo de profil</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form method="POST" action="{% url 'change_profile_picture' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                      <input class="form-control" type="file" name="profile_image" required>
+                    </div>
+                    <div class="mb-3">
+                      <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm">
+            <!-- Bouton pour ouvrir la modal de modification de profil -->
+            <button type="button" class="btn cusot" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+              Modifier le profil
+            </button>
+
+            <!-- La modal de modification de profil -->
+            <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Modifier le profil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form class="px-4" action="{% url 'profile' %}" method="POST">
+                      {% csrf_token %}
+                      {% if messages %}
+                      <div class="form-group">
+                          {% include 'message.html' %}
+                      </div>
+                      {% endif %}
+                      {% if form.non_field_errors %}
+                      {% for error in form.non_field_errors %}
+                      <div class="alert danger">
+                          <p class="text-danger">
+                              {{error}}
+                          </p>
+                      </div>
+                      {% endfor %}
+                      {% endif %}
+                      <div class="mb-3">
+                        <label for="username" class="form-label">Nom d'utilisateur</label>
+                        <input type="text" name="username" value="{{ account.username }}" class="form-control" placeholder="Nom d'utilisateur">
+                        <p class="text-danger error py-1">{{ form.username.errors }}</p>
+                      </div>
+                      <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" name="email" value="{{ account.email }}" class="form-control" placeholder="Email">
+                        <p class="text-danger error py-1">{{ form.email.errors }}</p>
+                      </div>
+                      <div class="mb-3">
+                        <label for="new_password" class="form-label">Nouveau mot de passe</label>
+                        <input type="password" name="new_password" value="" class="form-control" placeholder="Nouveau mot de passe">
+                        <p class="text-danger error py-1">{{ form.new_password.errors }}</p>
+                      </div>
+                      <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirmer le mot de passe</label>
+                        <input type="password" name="confirm_password" value="" class="form-control" placeholder="Confirmer le mot de passe">
+                        <p class="text-danger error py-1">{{ form.confirm_password.errors }}</p>
+                      </div>
+                      <div class="form-group mt-2">
+                          <button class="btn cusot">Mettre à jour</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <!-- Bouton pour ouvrir la modal de suppression de compte -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+              Supprimer mon compte
+            </button>
+
+            <!-- Fenêtre modale pour la suppression de compte -->
+            <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="deleteAccountModalLabel">Supprimer votre compte</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <form method="POST" action="{% url 'delete_account' %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger">Supprimer le compte</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class=" col-sm">
+            <ul class="list-group-item text-center">
+              <li class="list-group-item my-1">
+                <a class="text-decoration-none cusot" href="{% url 'my_articles' %}">
+                   Articles
+                </a>
+              </li>
+              <li class="list-group-item my-1">
+                <a class="text-decoration-none cusot" href="{% url 'add_article' %}">
+                   Ajouter un article
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class=" quizz-section">
+    <h2>Votre score aux quiz</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Quiz</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in user_quiz_results %}
+        <tr>
+          <td>{{ result.quiz.title }}</td>
+          <td>{{ result.score }}%</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a type="button" class="btn cusot" href="{% url 'quiz_home' %}"> Voir tous les quizz </a>
+  </div>
+  
+</div>
+{% endblock %}

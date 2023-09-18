@@ -1,0 +1,44 @@
+<!-- quizz_home.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  body {
+    background-color: #F4F1DE;
+    height: 100vh;
+    
+  }
+  .question {
+    margin-top: 150px;
+    margin-bottom: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .question h1 {
+    margin-bottom: 15px;
+  }
+</style>
+<section class="question">
+  <div class="container">
+    <h1 class="h1">Quizzes</h1>
+    <div class="row">
+      {% for quiz in quizzes %}
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card mb-4">
+       
+          <div class="card-body">
+            <h5 class="card-title">{{ quiz.title }}</h5>
+            <p class="card-text">{{quiz.decription}}</p>
+            <a href="{% url 'quiz_detail' quiz.id %}" class="btn cusot">Commencez</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

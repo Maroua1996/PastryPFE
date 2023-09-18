@@ -1,0 +1,25 @@
+{% load static %}
+<div class="main-banner header-text">
+  <div class="container-fluid">
+    <div class="owl-banner owl-carousel">
+      {% for article in articles|slice:"3" %}
+      <div class="item">
+        <img src="{{article.banner.url}}" alt="">
+        <div class="item-content">
+          <div class="main-content">
+            <div class="meta-category">
+              <span>{{article.category}}</span>
+            </div>
+            <a href="#"><h4>{{article.title}}</h4></a>
+            <ul class="post-info">
+              <li><a href="#">{{article.user.username}}</a></li>
+              <li><a href="#">{{article.created_at}}</a></li>
+              <li><a href="#">{{article.article_comments.all.count}} Comments</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+     {% endfor %}
+    </div>
+  </div>
+</div>

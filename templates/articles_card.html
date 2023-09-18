@@ -1,0 +1,39 @@
+
+
+<div class="col-lg-6 mb-5">
+  <div class="card">
+    <a href="{% url 'details_articles' article.slug %}">
+      <img src="{{article.banner.url}}" class="card-img-top" alt="">
+      <div class="card-body">
+          <span class="badge ">{{article.category.title}}</span>
+          <div class="w-100">
+          <a href="{% url 'details_articles' article.slug %}" class="card-title"><h4>{{article.title}}</h4></a>
+          <ul class="list-inline post-info">
+              <li class="list-inline-item"><a href="{% url 'user_information_view' article.user.username %}">{{article.user.username}}</a></li>
+              <li class="list-inline-item">{{article.created_at|date:"j F Y"}}</li>
+              <li class="list-inline-item">{{article.article_comments.all.count}} comments</li>
+              <li class="list-inline-item">{{article.article_likes.all.count}} likes</li>
+          </ul>
+        </div>
+          <div class="post-options">
+            <div class="row">
+                <div class="col-lg-12">
+                  <ul class="list-inline post-tags">
+                    <li class="list-inline-item"><i class="fa fa-tags"></i></li>
+                    {% for tag in article.tags.all %}
+                        {% if tag.title %}
+                            <li class="list-inline-item"><a href="{% url 'tag_articles' tag.slug %}">{{ tag.title }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                
+                </div>
+            </div>
+        </div>
+        
+        
+        
+      </div>
+    </a>
+  </div>
+</div>

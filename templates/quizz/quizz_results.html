@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Quiz {% endblock %}
+{% block content %}
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        h1 {
+            background-color: #3D405B;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        h3 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        .lis{
+            margin: 10px 0;
+        }
+
+        .lis span {
+            font-weight: bold;
+        }
+
+        .te {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            background-color: #3D405B;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .te:hover {
+            background-color: #3D405B;
+        }
+
+        .quiz-result {
+            margin-top: 150px;
+            margin-bottom: 150px
+        }
+
+        .nav-item a{
+            color:#3D405B;
+        }
+    </style>
+</head>
+<body>
+    <section class="quiz-result">
+    <h1>Résultats du Quiz</h1>
+
+    <!-- Afficher le nom du quiz -->
+    <h2>Nom du Quiz: {{ quiz.title }}</h2>
+
+    <!-- Afficher la description du quiz -->
+    <p>Description du Quiz: {{ quiz.description }}</p>
+
+    <!-- Afficher le score du participant -->
+    <h3>Votre Score: {{ percentage_score|floatformat:2 }}%</h3>
+
+    <!-- Afficher les réponses correctes et incorrectes -->
+    <h3>Réponses:</h3>
+    <ul>
+        {% for question, is_correct in user_answers.items %}
+        <li class="lis">
+            {{ question.text }}
+            {% if is_correct %}
+            <span style="color: green;">(Correct)</span>
+            {% else %}
+            <span style="color: red;">(Incorrect)</span>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Lien de retour vers la liste des quiz -->
+    <a  class="te" href="{% url 'quiz_home' %}">Retour à la liste des quiz</a>
+
+</section>
+
+    {% endblock %}
+

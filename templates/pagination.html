@@ -1,0 +1,59 @@
+<style>
+  /* Couleur de fond de la pagination */
+  .pagination {
+    background-color: rgb(160, 135, 160);
+    border-radius: 5px; /* Coins arrondis */
+  }
+
+  /* Style des liens des pages */
+  .page-link {
+    color: white; /* Couleur du texte */
+    background-color: transparent; /* Fond transparent */
+    border: none; /* Supprime la bordure */
+  }
+
+  /* Style des liens des pages au survol */
+  .page-link:hover {
+    background-color: white; /* Fond blanc au survol */
+    color: rgb(131, 79, 131); /* Texte violet au survol */
+  }
+
+  /* Style de l'élément actif */
+  .page-item.active .page-link {
+    background-color: white; /* Fond blanc pour l'élément actif */
+    color: violet; /* Texte violet pour l'élément actif */
+  }
+
+</style>
+
+<ul class="pagination justify-content-center">
+  {% if articles.has_previous %}
+  <li class="page-item">
+    <a class="page-link" href="?page={{ articles.previous_page_number }}" aria-label="Previous">
+      <i class="fa fa-angle-double-left"></i>
+    </a>
+  </li>
+  {% endif %}
+
+  {% for page in articles.paginator.page_range %}
+    {% if page <= 4 %}
+    {% if page == articles.number %}
+    <li class="page-item active">
+      <span class="page-link">{{ page }}</span>
+    </li>
+    {% else %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+    </li>
+    {% endif %}
+    {% endif %}
+  {% endfor %}
+
+  {% if articles.has_next %}
+  <li class="page-item">
+    <a class="page-link" href="?page={{ articles.next_page_number }}" aria-label="Next">
+      <i class="fa fa-angle-double-right"></i>
+    </a>
+  </li>
+  {% endif %}
+</ul>

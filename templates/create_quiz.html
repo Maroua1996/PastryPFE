@@ -1,0 +1,35 @@
+
+
+  {% extends 'base.html' %}
+{% load static %}
+{% block title %} {{article.title}} {% endblock %}
+{% block content %}
+
+<div class="main">  
+  <p align="center" class="sign">  
+  Create a Quiz  
+  </p>  
+  <center>  
+  <form class="form1" method="POST">  
+  {% csrf_token %}  
+  {% if messages %}  
+ <ul class="messages">  
+  {% for message in messages %}  
+  <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="color:red;">{{ message }}</li>  
+  {% endfor %}  
+ </ul>  
+ {% endif %}  
+  Quiz Name:  
+  <input align="center" class="pass" type="text" name="quiz_name" />  
+  <br>  
+  Quiz Description:  
+  <input align="center" class="pass" type="text" name="quiz_description" />  
+  <br>  
+  Total Questions:  
+  <input align="center" class="pass" type="number" name="total_questions" />  
+  <br>  
+  <a href="#" class="btn btn-primary">Back</a><button class="btn btn-primary" type="submit">Create Quiz </button>  
+  </form>  
+  </center>  
+  </div>  
+{% endblock content %}

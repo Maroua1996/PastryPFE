@@ -1,0 +1,54 @@
+<!-- quiz_detail.html -->
+
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<style>
+  body{
+    background-color: #F4F1DE;
+    height: 100vh;
+
+    
+  }
+
+  section {
+   margin-top: 150px;
+   margin-bottom: 150px;
+  }
+</style>
+<section>
+  <div class="container" >
+    <h1>{{ quiz.title }}</h1>
+    <form method="post" action="{% url 'submit_quiz' quiz.id %}">
+      {% csrf_token %}
+      <ol>
+        {% for question in questions %}
+        <li>
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">{{ question.text }}</h5>
+              <ul>
+                {% for answer in question.answers %}
+                <li>
+                  <label class="form-check">
+                    <input type="radio" class="form-check-input" name="question_{{ question.id }}" value="{{ answer.option }}">
+                    {{ answer.text }}
+                  </label>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+      </ol>
+      <div class="text-center">
+        <button type="submit" class="btn cusot">Submit</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+{% endblock %}

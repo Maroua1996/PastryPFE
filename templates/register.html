@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Registration {% endblock %}
+{% block content %}
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+  }
+
+  body {
+    background-color: black;
+    height: 100vh;
+  }
+.cot {
+  height: 150px;
+}
+
+.register {
+  margin-bottom: 200px;
+}
+
+</style>
+<section class="contact-us">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Registration
+                </div>
+                <div class="card-body">
+                    <form id="registration-form" action="" method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input name="username" {% if form.is_bound %} value="{{form.username.value}}" {% endif %} type="text" class="form-control" id="username" placeholder="Your name">
+                            <p>{{form.username.errors}}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input name="email" {% if form.is_bound %} value="{{form.email.value}}" {% endif %} type="email" class="form-control" id="email" placeholder="Email">
+                            <p>{{form.email.errors}}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <input name="password" {% if form.is_bound %} value="{{form.password.value}}" {% endif %} type="password" class="form-control" id="password" placeholder="Password">
+                                <button type="button" class="btn btn-outline-secondary" id="toggle-password">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
+                            </div>
+                            <p>{{form.password.errors}}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirm_password" class="form-label">Confirm Password</label>
+                            <div class="input-group">
+                                <input name="confirm_password" {% if form.is_bound %} value="{{form.confirm_password.value}}" {% endif %} type="password" class="form-control" id="confirm_password" placeholder="Retype password">
+                                <button type="button" class="btn btn-outline-secondary" id="toggle-confirm-password">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn custom-btn">Register</button>
+                        <a href="{% url 'login' %}" class="btn btn-secondary">Login</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</section>
+   
+    <!-- JavaScript pour basculer entre masquer et afficher les mots de passe -->
+    <script>
+        const passwordInput = document.getElementById('password');
+        const confirmInput = document.getElementById('confirm_password');
+        const togglePasswordButton = document.getElementById('toggle-password');
+        const toggleConfirmPasswordButton = document.getElementById('toggle-confirm-password');
+
+        togglePasswordButton.addEventListener('click', () => {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePasswordButton.innerHTML = '<i class="bi bi-eye"></i>';
+            } else {
+                passwordInput.type = 'password';
+                togglePasswordButton.innerHTML = '<i class="bi bi-eye-slash"></i>';
+            }
+        });
+
+        toggleConfirmPasswordButton.addEventListener('click', () => {
+            if (confirmInput.type === 'password') {
+                confirmInput.type = 'text';
+                toggleConfirmPasswordButton.innerHTML = '<i class="bi bi-eye"></i>';
+            } else {
+                confirmInput.type = 'password';
+                toggleConfirmPasswordButton.innerHTML = '<i class="bi bi-eye-slash"></i>';
+            }
+        });
+    </script>
+
+
+{% endblock %}

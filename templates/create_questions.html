@@ -1,0 +1,43 @@
+<div class="main">  
+  <p align="center" class="sign">  
+  Create a Question  
+  </p>  
+  <center>  
+  <form class="form1" method="POST">  
+  {% csrf_token %}  
+  {% if messages %}  
+ <ul class="messages">  
+  {% for message in messages %}  
+  <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="color:red;">{{ message }}</li>  
+  {% endfor %}  
+ </ul>  
+ {% endif %}  
+  Quiz Name:  
+  <select align="center" class="pass" name="quiz_name">  
+  {% for quiz in quiz_all %}  
+  <option>{{quiz.data.name}}</option>  
+  {% endfor %}  
+  </select>  
+  <br>  
+  Question:  
+  <input align="center" class="pass" type="text" name="question" />  
+  <br>  
+  Answer 1:  
+  <input align="center" class="pass" type="text" name="answer_1" />  
+  <br>  
+  Answer 2:  
+  <input align="center" class="pass" type="text" name="answer_2" />  
+  <br>  
+  Answer 3:  
+  <input align="center" class="pass" type="text" name="answer_3" />  
+  <br>  
+  Answer 4:  
+  <input align="center" class="pass" type="text" name="answer_4" />  
+  <br>  
+  Correct Answer:  
+  <input align="center" class="pass" type="text" name="correct_answer" />  
+  <br>  
+  <a href="dashboard" class="btn btn-primary">Back</a><button class="btn btn-primary" type="submit">Create Question </button>  
+  </form>  
+  </center>  
+  </div>  

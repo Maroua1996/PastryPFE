@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Categories {% endblock %}
+
+{% block content %}
+
+    <section class="blog-posts grid-system">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="all-blog-posts">
+              <div class="row">
+
+               {% for article in articles %}
+                {% include 'articles_card.html' %}
+                {% endfor %}
+                <div class="col-lg-12">
+               {% include 'pagination.html' %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% include 'sidebar.html'  with articles=articles_all %}
+        </div>
+      </div>
+    </section>
+
+  
+
+{% endblock content %}

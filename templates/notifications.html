@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Notiffications{% endblock %}
+{% block content %}
+<style>
+  body {
+    background-color: #F4F1DE;
+  }
+</style>
+<section class="notifications">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Notifications</h2>
+        <hr>
+        {% if notifications %}
+          {% for notification in notifications %}
+          {% if notification.content_object %}  
+          <div class="notification">
+              <div class="row">
+                {% if notification.notification_type == 'Article' or notification.notification_type == 'Like'  %}
+                  {% if notification.content_object.slug %}
+                    <a class="col-md-10" href="{% url 'details_articles' notification.content_object.slug %}">
+                      <h3>{{notification.text}}</h3>
+                      <p>{{notification.create_date|timesince}} ago</p>
+                      <hr>
+                    </a>
+                  {% else %}
+                    <p class="col-md-10">Invalid notification: Missing slug</p>
+                  {% endif %}
+                {% else %}
+                  <a class="col-md-10" href="{% url 'user_information_view' notification.content_object.follower.username %}">
+                    <h3>{{notification.text}}</h3>
+                    <p>{{notification.create_date|timesince}} ago</p>
+                    <hr>
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        {% else %}  
+          <h3>No notifications</h3>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock content %}
