@@ -23,7 +23,7 @@
                 <img src="{{ article.banner.url }}" class="card-img-top" alt="Article Image">
                 <div class="card-body">
                   <h5 class="card-title">{{ article.title }}</h5>
-                  <p class="card-text">{{ article.description|safe }}</p>
+                  <p class="card-text">{{ article.description|safe|truncatewords:10 }}</p>
                   <a href="{% url 'details_articles' article.slug %}" class="btn cusot">Lire</a>
                 </div>
               </div>
