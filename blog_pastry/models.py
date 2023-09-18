@@ -42,7 +42,7 @@ class Article(models.Model):
     category = models.ForeignKey(Category, related_name='categorie_aticles', on_delete=models.CASCADE)
     tags = models.ManyToManyField('Tag', related_name='tag_articles', blank=True)
     slug = models.SlugField(null=True, blank=True)
-    banner = models.ImageField(upload_to='aticle_banners')
+    banner = models.ImageField(upload_to='aticle_banners', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     @property

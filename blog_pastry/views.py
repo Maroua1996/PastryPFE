@@ -275,9 +275,16 @@ def my_articles(request):
     
     return render(request, 'myarticle.html', context)
 
-@login_required(login_url='login') # Import slugify from Django
+@login_required(login_url='login')
 def update_article(request, slug):
-    article = get_object_or_404(Article, slug=slug)
+    articles = Article.objects.filter(slug=slug)
+    if articles.count() == 0:
+        return redirect('home')  # Aucun article trouvé avec ce slug, rediriger vers la page d'accueil
+    elif articles.count() == 1:
+        article = articles.first()  # Un seul article trouvé avec ce slug
+    else:
+        article = articles.first()
+
     form = AddArticle(instance=article)
 
     if request.method == 'POST':
@@ -286,6 +293,17 @@ def update_article(request, slug):
         if form.is_valid():
             if request.user.pk != article.user.pk:
                 return redirect('home')
+
+            # Assurez-vous que le slug est unique avant de sauvegarder l'article
+            new_slug = slugify(form.cleaned_data['title'])
+            if Article.objects.filter(slug=new_slug).exclude(pk=article.pk).exists():
+                new_slug = f"{new_slug}-{article.pk}"  # Ajoutez l'ID de l'article pour le rendre unique
+
+            article.slug = new_slug  # Mette à jour le slug
+            article.save()
+
+            # Supprimez d'abord les anciens tags de l'article
+            article.tags.clear()
 
             tags = request.POST['tags'].split(',')
             user = get_object_or_404(User, pk=request.user.pk)
@@ -324,5 +342,3 @@ def update_article(request, slug):
         "article": article
     }
     return render(request, 'update.html', context)
-
-

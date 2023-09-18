@@ -3,6 +3,12 @@
 {% block title %} {{article.title}} {% endblock %}
 {% block content %}
 <style>
+  .blog-thumb img {
+    height: 300px;
+    object-fit: cover;
+    width: 100%;
+    background-color: #ffffff;
+}
   body {
     background-color: #F4F1DE;
   }
@@ -159,13 +165,14 @@
                     {% csrf_token %}
                     <div class="row">
                       <div class="col-lg-12">
+                        {% if request.user.is_authenticated %}
                         <fieldset>
                           <textarea name="text" class="w-100" rows="6" id="message" placeholder="Type your comment" required=""></textarea>
                         </fieldset>
                       </div>
                       <div class="col-lg-12">
                         <fieldset>
-                          {% if request.user.is_authenticated %}
+                         
                           <button type="submit" id="form-submit" class="btn cusot">Submit</button>
                           {% else %}
                           <a href="{% url 'login' %}" id="form-submit" class="btn cusot">Login to reply</a>
@@ -176,6 +183,7 @@
                   </form>
                 </div>
               </li>
+              {% if request.user.is_authenticated %}
               {% for inner_response in comment.comment_response.all %}
               <li class="replied mt-5">
                 <div class="author-thumb top">
@@ -189,7 +197,8 @@
                   <p class="comment-t">{{inner_response.text}}</p>
                 </div>
               </li>
-              {% endfor %}
+               {% endfor %}
+               {% endif %}
               {% endfor %}
             </ul>
             
@@ -203,6 +212,7 @@
             <form id="comment" action="{% url 'details_articles' article.slug %}" method="POST">
               {% csrf_token %}
               <div class="row">
+                {% if request.user.is_authenticated %}
                 <div class="col-lg-12">
                   <fieldset>
                     <textarea name="text" class="w-100" rows="6" id="message" placeholder="Type your comment" required=""></textarea>
@@ -210,7 +220,6 @@
                 </div>
                 <div class="col-lg-12">
                   <fieldset>
-                    {% if request.user.is_authenticated %}
                     <button type="submit" id="form-submit" class="btn cusot">Submit</button>
                     {% else %}
                     <a href="{% url 'login' %}" id="form-submit" class="btn cusot">Login to comment</a>

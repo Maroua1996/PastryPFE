@@ -30,7 +30,8 @@
   <div class="row">
     <div>
       <div class="text-center">
-        <img src="{{ account.get_profile_image|safe }}" alt="Avatar de l'utilisateur" class="avatar img-fluid rounded-circle">
+        <img src="{% if account.image %}{{ account.get_profile_image }}{% else %}{% static 'assets/images/test.jpg' %}{% endif %}" alt="Avatar de l'utilisateu 1r" class="avatar img-fluid rounded-circle">
+
         <h4>{{ account.username }}</h4>
 
         <p>Followers: <strong>{{ account.user_followers.count }}</strong></p>
